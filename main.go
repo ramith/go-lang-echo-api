@@ -34,9 +34,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", handler)
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		handler(w, r)
-	})
 
 	port := ":8080"
 	log.Println("Server listening on port", port)
