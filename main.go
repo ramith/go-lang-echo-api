@@ -26,15 +26,19 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		Headers: headers,
 	}
 
+	log.Printf("Received request: Method=%s, Path=%s, Queries=%v, Headers=%v", response.Method, response.Path, response.Queries, response.Headers)
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
 
 func main() {
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		handler(w, r)
+	})
 
 	port := ":8080"
 	log.Println("Server listening on port", port)
 	log.Fatal(http.ListenAndServe(port, nil))
 }
-
