@@ -1,0 +1,53 @@
+openapi: 3.0.0
+info:
+  title: Echo API
+  description: API that echoes request method, path, query parameters, and headers.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+paths:
+  /{any}:
+    get:
+      summary: Echo request details
+      description: Returns the method, path, query parameters, and headers of the request.
+      parameters:
+        - name: any
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Any path parameter
+        - name: query
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+          style: form
+          explode: true
+          description: Query parameters
+      responses:
+        "200":
+          description: Successful response with echoed request details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  method:
+                    type: string
+                  path:
+                    type: string
+                  queries:
+                    type: object
+                    additionalProperties:
+                      type: array
+                      items:
+                        type: string
+                  headers:
+                    type: object
+                    additionalProperties:
+                      type: array
+                      items:
+                        type: string
